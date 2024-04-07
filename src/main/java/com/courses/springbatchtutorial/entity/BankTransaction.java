@@ -17,8 +17,8 @@ public class BankTransaction {
     private String transactionDetails;
     private String chequeNo;
     private String valueDate;
-    private String withdrawalAmt;
-    private String depositAmt;
-    private String balanceAmt;
+    private String withdrawalAmount;
+    private String depositAmount;
+    private String balanceAmount;
     private Double NetAmount;
 }

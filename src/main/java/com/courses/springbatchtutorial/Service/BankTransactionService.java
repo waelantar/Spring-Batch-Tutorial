@@ -13,19 +13,19 @@ import java.util.Map;
 @Service
 public class BankTransactionService {
     private JobLauncher jobLauncher;
-    private Job job;
+    private Job bankTransactionJob;
 
     public BankTransactionService(JobLauncher jobLauncher, Job job){
         this.jobLauncher = jobLauncher;
-        this.job = job;
+        this.bankTransactionJob = bankTransactionJob;
     }
 
-    public BatchStatus load() {
+    public BatchStatus executeBankTransactionJob() {
         try {
             Map<String, JobParameters> jobParameterMap = new HashMap<>();
             jobParameterMap.put("time", new JobParameters());
             JobParameters jobParameters = new JobParameters();
-            JobExecution jobExecution = jobLauncher.run(job, jobParameters);
+            JobExecution jobExecution = jobLauncher.run(bankTransactionJob, jobParameters);
 
             while (jobExecution.isRunning()) {
                 System.out.println(".........");

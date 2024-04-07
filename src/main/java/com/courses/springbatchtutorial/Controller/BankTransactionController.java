@@ -17,9 +17,9 @@ public class BankTransactionController {
     }
 
     @GetMapping("/start")
-    public ResponseEntity<String> load() {
+    public ResponseEntity<String> executeBankTransactionJob() {
         try {
-            BatchStatus status = bankTransactionService.load();
+            BatchStatus status = bankTransactionService.executeBankTransactionJob();
             return ResponseEntity.ok("Batch job status: " + status);
         } catch (Exception e) {
             // Log the error
