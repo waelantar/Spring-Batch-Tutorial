@@ -13,11 +13,12 @@ import java.util.Date;
 public class BankTransaction {
     @Id
     private String accountNo;
-    private Date transactionDate;
+    private String date;
     private String transactionDetails;
     private String chequeNo;
-    private Date valueDate;
-    private double withdrawalAmount;
-    private double depositAmount;
-    private double balanceAmount;
+    private String valueDate;
+    private String withdrawalAmt;
+    private String depositAmt;
+    private String balanceAmt;
+    private Double NetAmount;
 }
