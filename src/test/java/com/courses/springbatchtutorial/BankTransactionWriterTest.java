@@ -28,7 +28,7 @@ public class BankTransactionWriterTest {
     }
 
     @Test
-    public void testWrite() {
+    public void testWrite() throws Exception {
         // Given
         BankTransaction transaction = new BankTransaction();
         Chunk<BankTransaction> chunk = new Chunk<>(Collections.singletonList(transaction));

@@ -30,19 +30,20 @@ String path;
 
     @Bean
     public ItemReader<BankTransaction> reader() {
-        return new FlatFileItemReaderBuilder<BankTransaction>()
-                .name("TransactionItemReader")
-                .resource(new PathResource(path))
-                .delimited()
-                .delimiter(",")
-                .strict(false)
-                .names("accountNo", "date", "transactionDetails", "chequeNo", "valueDate", "withdrawalAmt", "depositAmt", "balanceAmt")
-                .linesToSkip(1)
-                .fieldSetMapper(new BeanWrapperFieldSetMapper<>() {{
-                    setTargetType(BankTransaction.class);
+        return new FlatFileItemReaderBuilder<BankTransaction>() // Builder pattern used to construct FlatFileItemReader
+                .name("TransactionItemReader") // Name of the reader
+                .resource(new PathResource(path)) // Resource from which data will be read (file path)
+                .delimited() // Indicates that the file is delimited (CSV format)
+                .delimiter(",") // Delimiter used in the CSV file
+                .strict(false) // Ignore parsing errors
+                .names("accountNo", "date", "transactionDetails", "chequeNo", "valueDate", "withdrawalAmt", "depositAmt", "balanceAmt") // Names of the fields in the CSV file
+                .linesToSkip(1) // Skip the header line
+                .fieldSetMapper(new BeanWrapperFieldSetMapper<>() {{ // Mapper to map fields from CSV to BankTransaction object
+                    setTargetType(BankTransaction.class); // Target type for mapping
                 }})
-                .build();
+                .build(); // Build the FlatFileItemReader
     }
+
 
 
     @Bean
@@ -60,22 +61,24 @@ String path;
     @Bean
     public Step step(ItemReader<BankTransaction> reader, ItemProcessor<BankTransaction, BankTransaction> processor,
                      ItemWriter<BankTransaction> writer, JobRepository jobRepository, PlatformTransactionManager transactionManager) {
-        return new StepBuilder("myStep",jobRepository)
-                .<BankTransaction, BankTransaction>chunk(10,transactionManager)
-                .reader(reader)
-                .processor(processor)
-                .writer(writer)
-                .build();
+        // Configure and build a Step for processing bank transactions
+        return new StepBuilder("myStep", jobRepository)
+                .<BankTransaction, BankTransaction>chunk(10, transactionManager) // Chunk-oriented step, committing every 10 items
+                .reader(reader) // Set the reader
+                .processor(processor) // Set the processor
+                .writer(writer) // Set the writer
+                .build(); // Build the Step
     }
-
 
     @Bean
-    public Job job(Step step,JobRepository jobRepository) {
-        return new JobBuilder("myJob",jobRepository)
-                .incrementer(new RunIdIncrementer())
-                .flow(step)
-                .end()
-                .build();
+    public Job job(Step step, JobRepository jobRepository) {
+        // Configure and build a Job for processing bank transactions
+        return new JobBuilder("myJob", jobRepository)
+                .incrementer(new RunIdIncrementer()) // Incrementer to generate unique job instances
+                .flow(step) // Add the step to the job flow
+                .end() // End the job flow
+                .build(); // Build the Job
     }
+
 
 }

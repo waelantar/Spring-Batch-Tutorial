@@ -9,14 +9,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+// Controller class for managing bank transactions
 public class BankTransactionController {
-    BankTransactionService bankTransactionService;
+    private BankTransactionService bankTransactionService;  // Service for bank transactions
 
+    // Constructor with dependencies
     public BankTransactionController(BankTransactionService bankTransactionService) {
         this.bankTransactionService = bankTransactionService;
     }
 
-    @GetMapping("/start")
+    // Endpoint to execute the bank transaction job
+    @GetMapping("/bank-transactions")
     public ResponseEntity<String> executeBankTransactionJob() {
         try {
             BatchStatus status = bankTransactionService.executeBankTransactionJob();

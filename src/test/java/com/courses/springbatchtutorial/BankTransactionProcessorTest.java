@@ -16,11 +16,11 @@ public class BankTransactionProcessorTest {
     }
 
     @Test
-    public void testProcess() {
+    public void testProcess() throws Exception {
         // Given
         BankTransaction transaction = new BankTransaction();
-        transaction.setWithdrawalAmt("100");
-        transaction.setDepositAmt("200");
+        transaction.setWithdrawalAmount("100");
+        transaction.setDepositAmount("200");
 
         // When
         BankTransaction processedTransaction = processor.process(transaction);
@@ -30,11 +30,11 @@ public class BankTransactionProcessorTest {
     }
 
     @Test
-    public void testProcess_withEmptyValues() {
+    public void testProcess_withEmptyValues() throws Exception {
         // Given
         BankTransaction transaction = new BankTransaction();
-        transaction.setWithdrawalAmt("");
-        transaction.setDepositAmt("");
+        transaction.setWithdrawalAmount("");
+        transaction.setDepositAmount("");
 
         // When
         BankTransaction processedTransaction = processor.process(transaction);

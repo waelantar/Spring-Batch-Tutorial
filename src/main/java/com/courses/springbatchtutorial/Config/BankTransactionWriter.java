@@ -10,12 +10,15 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 @Component
+// Writer class for writing bank transactions to the repository
 public class BankTransactionWriter implements ItemWriter<BankTransaction> {
     @Autowired
-    private BankTransactionRepository bankTransactionRepository;
+    private BankTransactionRepository bankTransactionRepository;  // Repository for bank transactions
 
     @Override
-    public void write(Chunk<? extends BankTransaction> chunk) {
+    // Method to write bank transactions
+    public void write(Chunk<? extends BankTransaction> chunk) throws Exception {
+
         try {
             bankTransactionRepository.saveAll(chunk);
         } catch (Exception e) {

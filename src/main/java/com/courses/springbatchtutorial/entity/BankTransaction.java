@@ -10,15 +10,16 @@ import java.util.Date;
 
 @Entity
 @Data
+// Represents a bank transaction entity
 public class BankTransaction {
     @Id
-    private String accountNo;
-    private String date;
-    private String transactionDetails;
-    private String chequeNo;
-    private String valueDate;
-    private String withdrawalAmount;
-    private String depositAmount;
-    private String balanceAmount;
-    private Double NetAmount;
+    private String accountNo;  // Unique identifier for the account
+    private String date;       // Date of the transaction
+    private String transactionDetails;  // Details of the transaction
+    private String chequeNo;   // Cheque number (if applicable)
+    private String valueDate;  // Date when the transaction takes effect
+    private String withdrawalAmount;   // Amount withdrawn
+    private String depositAmount;      // Amount deposited
+    private String balanceAmount;      // Current balance after the transaction
+    private Double netAmount;          // Net amount after transaction
 }
