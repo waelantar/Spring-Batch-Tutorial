@@ -15,6 +15,7 @@ import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -24,13 +25,14 @@ import org.springframework.transaction.PlatformTransactionManager;
 @Configuration
 
 public class BatchConfig {
-
+    @Value("${file.path}")
+String path;
 
     @Bean
     public ItemReader<BankTransaction> reader() {
         return new FlatFileItemReaderBuilder<BankTransaction>()
                 .name("TransactionItemReader")
-                .resource(new PathResource("/home/wael/Documents/WAEL WORK/Spring-Batch-Tutorial/src/main/resources/bank.csv"))
+                .resource(new PathResource(path))
                 .delimited()
                 .delimiter(",")
                 .strict(false)
