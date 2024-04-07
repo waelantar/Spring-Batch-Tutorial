@@ -14,10 +14,15 @@ public class BankTransactionWriter implements ItemWriter<BankTransaction> {
     @Autowired
     private BankTransactionRepository bankTransactionRepository;
 
-
     @Override
-    public void write(Chunk<? extends BankTransaction> chunk) throws Exception {
-        bankTransactionRepository.saveAll(chunk);
-
+    public void write(Chunk<? extends BankTransaction> chunk) {
+        try {
+            bankTransactionRepository.saveAll(chunk);
+        } catch (Exception e) {
+            // Log the error
+            e.printStackTrace();
+            // Or throw a custom exception
+            throw new RuntimeException("Failed to save bank transactions: " + e.getMessage());
+        }
     }
 }

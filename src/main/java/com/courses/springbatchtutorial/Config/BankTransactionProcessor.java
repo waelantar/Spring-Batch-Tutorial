@@ -5,23 +5,26 @@ import org.springframework.batch.item.ItemProcessor;
 import org.springframework.stereotype.Component;
 
 @Component
-public class BankTransactionProcessor implements ItemProcessor<BankTransaction,BankTransaction> {
+public class BankTransactionProcessor implements ItemProcessor<BankTransaction, BankTransaction> {
     @Override
-    public BankTransaction process(BankTransaction item) throws Exception {
-        // Get withdrawal and deposit amounts from the transaction
-        String withdrawalAmt = item.getWithdrawalAmt().trim().replaceAll(",", "");
-        String depositAmt = item.getDepositAmt().trim().replaceAll(",", "");
+    public BankTransaction process(BankTransaction item) {
+        try {
+            String withdrawalAmt = item.getWithdrawalAmt().trim().replaceAll(",", "");
+            String depositAmt = item.getDepositAmt().trim().replaceAll(",", "");
 
-        // Parse withdrawal and deposit amounts to double
-        double withdrawal = Double.parseDouble(withdrawalAmt.isEmpty() ? "0" : withdrawalAmt);
-        double deposit = Double.parseDouble(depositAmt.isEmpty() ? "0" : depositAmt);
+            double withdrawal = Double.parseDouble(withdrawalAmt.isEmpty() ? "0" : withdrawalAmt);
+            double deposit = Double.parseDouble(depositAmt.isEmpty() ? "0" : depositAmt);
 
-        // Calculate net amount
-        double netAmount = deposit - withdrawal;
+            double netAmount = deposit - withdrawal;
 
-        // Set the net amount to the transaction
-        item.setNetAmount(netAmount);
+            item.setNetAmount(netAmount);
 
-        return item;
+            return item;
+        } catch (Exception e) {
+            // Log the error
+            e.printStackTrace();
+            // Or throw a custom exception
+            throw new RuntimeException("Failed to process bank transaction: " + e.getMessage());
+        }
     }
 }
